@@ -7,4 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+
+    <color name="essential_color">#6B82AA</color>
+    <color name="dark_essential_color">#40516E</color>
+    <string name="alive">#14D91B</string>
+    <string name="dead">#FF0800</string>
+    <string name="unknown">#E3E3E3</string>
+
 </resources>
