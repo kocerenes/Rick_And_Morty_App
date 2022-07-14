@@ -1,5 +1,7 @@
 package com.enesk.rickmorty.ui.home.adapter
 
+import android.graphics.Color
+import android.graphics.ColorFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import coil.load
 import com.enesk.rickmorty.R
 import com.enesk.rickmorty.data.remote.model.Character
 import com.enesk.rickmorty.databinding.ItemCharactersBinding
+import com.enesk.rickmorty.utils.CharacterStatusEnums
 import javax.inject.Inject
 
 class HomeRecyclerAdapter():RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder>(){
@@ -39,6 +42,8 @@ class HomeRecyclerAdapter():RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHol
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
+        val character = diffList[position]
+
         holder.binding.apply {
             tvCharacterName.text = diffList[position].name
             tvCharacterGender.text = diffList[position].gender
@@ -47,6 +52,19 @@ class HomeRecyclerAdapter():RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHol
             ivCharacterProfile.load(imgCharacterProfile){
                 crossfade(true)
                 crossfade(100)
+            }
+
+            when(character.status){
+                CharacterStatusEnums.CHARACTER_ALIVE.value -> imgCharacterStatus.setColorFilter(
+                    Color.parseColor("#14D91B")
+                )
+                CharacterStatusEnums.CHARACTER_DEAD.value -> imgCharacterStatus.setColorFilter(
+                    Color.parseColor("#FF0800")
+                )
+                CharacterStatusEnums.CHARACTER_UNKNOWN.value -> imgCharacterStatus.setColorFilter(
+                    Color.parseColor("#E3E3E3")
+                )
+                else -> imgCharacterStatus.setColorFilter(Color.parseColor("#F8F816"))
             }
 
         }
