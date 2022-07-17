@@ -1,4 +1,4 @@
-package com.enesk.rickmorty.data.remote.model
+package com.enesk.rickmorty.data.remote.model.character
 
 import com.google.gson.annotations.SerializedName
 

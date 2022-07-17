@@ -5,13 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.enesk.rickmorty.R
 import com.enesk.rickmorty.databinding.FragmentHomeBinding
 import com.enesk.rickmorty.ui.home.adapter.HomeRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -19,9 +23,9 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel : HomeViewModel
+    private val viewModel : HomeViewModel by viewModels()
 
-    private val countryAdapter = HomeRecyclerAdapter()
+    private lateinit var homeAdapter: HomeRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,35 +37,35 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        //initViews()
+
+        //viewModel.getdata(1)
         setupCharacterRecyclerView()
-        viewModel.getData(1)
         observe()
     }
 
     private fun observe(){
-        viewModel.characterList.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                binding.characterRecyclerView.visibility = View.VISIBLE
-                countryAdapter.diffList = it.results!!
-            }
-        })
-    }
-
-    private fun initViews() = with(binding){
-        characterRecyclerView.adapter = countryAdapter
-    }
-
-    private fun setupCharacterRecyclerView() {
-        binding.characterRecyclerView.adapter = countryAdapter
-
-            binding.characterRecyclerView.apply {
-                setHasFixedSize(true)
-                layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-                adapter = countryAdapter
+        //viewModel.characterList.observe(viewLifecycleOwner, Observer {
+        //    it?.let {
+        //        binding.characterRecyclerView.visibility = View.VISIBLE
+        //        countryAdapter.diffList = it.results!!
+        //    }
+        //})
+        lifecycleScope.launchWhenCreated {
+            viewModel.getList().collectLatest {
+                homeAdapter.submitData(it)
             }
 
+        }
+
+    }
+
+    private fun setupCharacterRecyclerView(){
+        homeAdapter = HomeRecyclerAdapter()
+        binding.characterRecyclerView.apply {
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            adapter = homeAdapter
+            setHasFixedSize(true)
+        }
     }
 
     override fun onDestroyView() {
