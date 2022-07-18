@@ -8,7 +8,11 @@
         android:id="@+id/detailFragment"
         android:name="com.enesk.rickmorty.ui.detail.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="character"
+            app:argType="com.enesk.rickmorty.data.remote.model.character.Character" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_home"
@@ -17,6 +21,9 @@
         tools:layout="@layout/fragment_home" >
 
 
+        <action
+            android:id="@+id/action_navigation_home_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
 
 </navigation>

@@ -1,6 +1,7 @@
 package com.enesk.rickmorty.data.remote.model.character
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Character(
     @SerializedName("id")
@@ -15,4 +16,4 @@ data class Character(
     val gender: String?,
     @SerializedName("image")
     val image: String?,
-)
+): Serializable
