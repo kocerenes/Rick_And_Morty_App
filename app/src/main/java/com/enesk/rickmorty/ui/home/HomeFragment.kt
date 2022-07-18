@@ -9,16 +9,19 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.enesk.rickmorty.R
+import com.enesk.rickmorty.data.remote.model.character.Character
 import com.enesk.rickmorty.databinding.FragmentHomeBinding
 import com.enesk.rickmorty.ui.home.adapter.HomeRecyclerAdapter
+import com.enesk.rickmorty.ui.home.listener.ItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), ItemClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -39,7 +42,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //viewModel.getdata(1)
-        setupCharacterRecyclerView()
+        setupCharacterRecyclerView(this)
         observe()
     }
 
@@ -54,13 +57,12 @@ class HomeFragment : Fragment() {
             viewModel.getList().collectLatest {
                 homeAdapter.submitData(it)
             }
-
         }
 
     }
 
-    private fun setupCharacterRecyclerView(){
-        homeAdapter = HomeRecyclerAdapter()
+    private fun setupCharacterRecyclerView(listener : ItemClickListener){
+        homeAdapter = HomeRecyclerAdapter(listener)
         binding.characterRecyclerView.apply {
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = homeAdapter
@@ -71,6 +73,12 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemClick(character: Character) {
+        val action = HomeFragmentDirections.actionNavigationHomeToDetailFragment(character)
+        findNavController().navigate(action)
+        println(character.name)
     }
 
 }

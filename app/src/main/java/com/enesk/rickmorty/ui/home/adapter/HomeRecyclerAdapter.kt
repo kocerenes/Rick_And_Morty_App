@@ -3,6 +3,7 @@ package com.enesk.rickmorty.ui.home.adapter
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -10,9 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.enesk.rickmorty.data.remote.model.character.Character
 import com.enesk.rickmorty.databinding.ItemCharactersBinding
+import com.enesk.rickmorty.ui.home.HomeFragmentDirections
+import com.enesk.rickmorty.ui.home.listener.ItemClickListener
 import com.enesk.rickmorty.utils.CharacterStatusEnums
 
-class HomeRecyclerAdapter :
+class HomeRecyclerAdapter(
+    private val onClickListener: ItemClickListener
+) :
     PagingDataAdapter<Character, HomeRecyclerAdapter.HomeViewHolder>(diffUtil) {
 
     inner class HomeViewHolder(val binding: ItemCharactersBinding) :
@@ -63,6 +68,11 @@ class HomeRecyclerAdapter :
                     )
                     else -> imgCharacterStatus.setColorFilter(Color.parseColor("#F8F816"))
                 }
+            }
+
+
+            holder.itemView.setOnClickListener {
+                onClickListener.onItemClick(character)
             }
 
         }
