@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), ItemClickListener {
+class HomeFragment : Fragment(){
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -42,7 +42,7 @@ class HomeFragment : Fragment(), ItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         //viewModel.getdata(1)
-        setupCharacterRecyclerView(this)
+        setupCharacterRecyclerView()
         observe()
     }
 
@@ -61,24 +61,26 @@ class HomeFragment : Fragment(), ItemClickListener {
 
     }
 
-    private fun setupCharacterRecyclerView(listener : ItemClickListener){
-        homeAdapter = HomeRecyclerAdapter(listener)
+    private fun setupCharacterRecyclerView(){
+        homeAdapter = HomeRecyclerAdapter(object : ItemClickListener{
+            override fun onItemClick(character: Character) {
+                val action = HomeFragmentDirections.actionNavigationHomeToDetailFragment(character)
+                findNavController().navigate(action)
+                println(character.id)
+            }
+        })
+
         binding.characterRecyclerView.apply {
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = homeAdapter
             setHasFixedSize(true)
         }
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onItemClick(character: Character) {
-        val action = HomeFragmentDirections.actionNavigationHomeToDetailFragment(character)
-        findNavController().navigate(action)
-        println(character.name)
     }
 
 }
