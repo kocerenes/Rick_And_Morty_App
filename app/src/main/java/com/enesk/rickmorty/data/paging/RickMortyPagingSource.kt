@@ -5,6 +5,8 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.enesk.rickmorty.data.remote.ApiFactory
 import com.enesk.rickmorty.data.remote.model.character.Character
+import retrofit2.HttpException
+import java.io.IOException
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -33,7 +35,9 @@ class RickMortyPagingSource @Inject constructor(
                 prevKey = if (currentPage == 1) null else -1,
                 nextKey = currentPage + 1
             )
-        }catch (exception : Exception){
+        }catch (exception : IOException){
+            return LoadResult.Error(exception)
+        }catch (exception : HttpException){
             return LoadResult.Error(exception)
         }
     }

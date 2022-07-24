@@ -11,6 +11,8 @@ import com.enesk.rickmorty.data.remote.model.character.CharacterResponse
 import com.enesk.rickmorty.data.repository.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,7 +21,7 @@ class HomeViewModel @Inject constructor(
     private val apiFactory: ApiFactory
 ): ViewModel() {
 
-    val characterList: MutableLiveData<CharacterResponse> = MutableLiveData()
+    //val characterList: MutableLiveData<CharacterResponse> = MutableLiveData()
 
     //fun getData(
     //    page : Int
@@ -28,7 +30,6 @@ class HomeViewModel @Inject constructor(
     //    characterList.value = repository.getData(page)
     //}
 
-    val listData = repository.getCharacters()
     fun getList(): Flow<PagingData<Character>> {
         return repository.getCharacters().cachedIn(viewModelScope)
     }
