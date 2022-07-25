@@ -43,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
+        android:backgroundTint="@color/dark_essential_color"
         app:layout_constraintStart_toEndOf="@id/query_bottomSheet_GenderTitle"
         app:layout_constraintTop_toTopOf="@id/query_bottomSheet_GenderTitle"
         app:layout_constraintBottom_toBottomOf="@id/query_bottomSheet_GenderTitle"/>
@@ -61,6 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
+        android:backgroundTint="@color/dark_essential_color"
         app:layout_constraintStart_toEndOf="@id/query_bottomSheet_GenderTitle"
         app:layout_constraintTop_toTopOf="@id/query_bottomSheet_statusTitle"
         app:layout_constraintBottom_toBottomOf="@id/query_bottomSheet_statusTitle"/>
@@ -70,7 +72,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/query"
-        android:textColor="?colorOnPrimary"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/dark_essential_color"
         android:textAllCaps="false"
         android:layout_marginTop="25dp"
         app:layout_constraintWidth_percent="0.5"

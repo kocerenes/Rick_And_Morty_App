@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.enesk.rickmorty.R
 import com.enesk.rickmorty.data.remote.model.character.Character
 import com.enesk.rickmorty.databinding.FragmentHomeBinding
+import com.enesk.rickmorty.ui.bottom_sheet.FilterBottomSheetFragment
 import com.enesk.rickmorty.ui.home.adapter.HomeRecyclerAdapter
 import com.enesk.rickmorty.ui.home.listener.ItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,8 +27,13 @@ class HomeFragment : Fragment(){
     private val binding get() = _binding!!
 
     private val viewModel : HomeViewModel by viewModels()
-
     private lateinit var homeAdapter: HomeRecyclerAdapter
+    private lateinit var bottomSheet : FilterBottomSheetFragment
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        bottomSheet = FilterBottomSheetFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +48,10 @@ class HomeFragment : Fragment(){
 
         setupCharacterRecyclerView()
         observe()
+
+        binding.mainFragmentFab.setOnClickListener {
+            bottomSheet.show(parentFragmentManager,"FILTER")
+        }
     }
 
     private fun observe(){
