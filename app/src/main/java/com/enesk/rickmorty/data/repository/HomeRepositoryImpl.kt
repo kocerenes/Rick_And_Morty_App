@@ -1,15 +1,14 @@
 package com.enesk.rickmorty.data.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.*
 import com.enesk.rickmorty.data.paging.RickMortyPagingSource
 import com.enesk.rickmorty.data.remote.ApiFactory
-import com.enesk.rickmorty.data.remote.HomeRepository
+import com.enesk.rickmorty.domain.repository.HomeRepository
 import com.enesk.rickmorty.data.remote.model.character.Character
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class HomeRepository @Inject constructor(
+class HomeRepositoryImpl @Inject constructor(
     private val apiFactory: ApiFactory
 ): HomeRepository {
 

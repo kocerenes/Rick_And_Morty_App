@@ -1,13 +1,11 @@
 package com.enesk.rickmorty.data.paging
 
-import android.net.Uri
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.enesk.rickmorty.data.remote.ApiFactory
 import com.enesk.rickmorty.data.remote.model.character.Character
 import retrofit2.HttpException
 import java.io.IOException
-import java.lang.Exception
 import javax.inject.Inject
 
 class RickMortyPagingSource @Inject constructor(

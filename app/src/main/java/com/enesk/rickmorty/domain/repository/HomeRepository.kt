@@ -1,6 +1,5 @@
-package com.enesk.rickmorty.data.remote
+package com.enesk.rickmorty.domain.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import com.enesk.rickmorty.data.remote.model.character.Character
 import kotlinx.coroutines.flow.Flow
